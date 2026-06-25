@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHPE · Colegio Sagrado Corazón de Jesús · Ponce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; background: var(--navy-dark); }
+    body { font-family: 'Inter', sans-serif; font-size: 16px; color: #1a1a1a; background: var(--navy-dark); line-height: 1.6; }
+    #page-content { background: #fff; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ANIMATIONS */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .hero-anim { animation: fadeInDown 0.8s ease forwards; }
+    .hero-anim-d { animation: fadeInUp 0.8s ease 0.2s both; }
+    .hero-anim-s { animation: fadeInUp 0.8s ease 0.4s both; }
+    .hero-anim-b { animation: fadeInUp 0.8s ease 0.6s both; }
+    .nav-blur { backdrop-filter: blur(8px); transition: background 0.3s; }
+
+    :root {
+      --navy:      #1A2B5F;
+      --navy-dark: #0F1B3D;
+      --orange:    #E8500A;
+      --blue:      #2E5FA3;
+      --blue-lt:   #5B9BD5;
+      --red:       #C0392B;
+      --off-white: #F5F7FA;
+      --muted:     #6B7280;
+      --border:    #E5E7EB;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
+
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 72px 0; }
+    .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
+    .section-title { font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.25; }
+    .section-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; }
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* NAVBAR */
+    .navbar { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(0,0,0,0.18); }
+    .navbar-brand { display: flex; align-items: center; gap: 12px; }
+    .hex-logo { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .hex-logo img { width: 44px; height: 44px; object-fit: contain; }
+    .brand-name { color: #fff; font-size: 14px; font-weight: 600; }
+    .brand-sub { color: var(--blue-lt); font-size: 10px; }
+    .navbar-links { display: flex; gap: 24px; list-style: none; }
+    .navbar-links a { color: #B8CCE4; font-size: 13px; transition: color 0.2s; }
+    .navbar-links a:hover { color: #fff; }
+    .navbar-socials { display: flex; gap: 8px; }
+    .nav-social { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; border: 1px solid rgba(255,255,255,0.2); color: #fff; background: rgba(255,255,255,0.07); transition: background 0.2s; }
+    .nav-social:hover { background: rgba(255,255,255,0.15); }
+    .nav-social svg { width: 15px; height: 15px; fill: currentColor; }
+
+    /* HERO */
+    .hero { background: var(--navy); padding: 88px 24px 72px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; right: -80px; top: -80px; width: 500px; height: 500px; background: var(--blue); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.07; }
+    .hero::after { content: ''; position: absolute; right: 80px; bottom: -120px; width: 280px; height: 280px; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.06; }
+    .hero .container { position: relative; z-index: 1; max-width: 720px; }
+    .hero-tag { display: inline-block; background: var(--orange); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-sm); margin-bottom: 20px; }
+    .hero h1 { font-size: 42px; font-weight: 600; color: #fff; line-height: 1.15; margin-bottom: 16px; }
+    .hero h1 em { font-style: normal; color: var(--blue-lt); }
+    .hero-desc { font-size: 16px; color: #B8CCE4; line-height: 1.7; max-width: 560px; margin-bottom: 32px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; transition: opacity 0.2s, transform 0.15s; }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-ig { background: var(--orange); color: #fff; }
+    .btn-tk { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .hero-stats { display: flex; gap: 36px; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .stat-val { font-size: 26px; font-weight: 600; color: #fff; }
+    .stat-lbl { font-size: 11px; color: var(--blue-lt); margin-top: 2px; }
+
+    /* QUIENES SOMOS */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-card { background: var(--off-white); border-radius: var(--radius-md); padding: 28px; border-left: 4px solid var(--orange); }
+    .about-card h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+    .about-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* PILARES */
+    .pillars-bg { background: var(--off-white); }
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .pillar { background: #fff; border-radius: var(--radius-md); padding: 28px 24px; border: 1px solid var(--border); }
+    .pillar-icon { width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .pillar-icon svg { width: 22px; height: 22px; }
+    .pillar-icon.orange { background: #FFF0E8; color: var(--orange); }
+    .pillar-icon.blue   { background: #E6F1FB; color: var(--blue); }
+    .pillar-icon.red    { background: #FDECEA; color: var(--red); }
+    .pillar h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .pillar p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* EVENTOS */
+    .events-list { display: flex; flex-direction: column; gap: 12px; }
+    .event-card { display: flex; align-items: center; gap: 20px; padding: 18px 20px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); transition: box-shadow 0.2s; }
+    .event-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .event-date { text-align: center; min-width: 44px; }
+    .event-day { font-size: 22px; font-weight: 600; color: var(--orange); line-height: 1; }
+    .event-month { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .event-sep { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
+    .event-info h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+    .event-info p { font-size: 12px; color: var(--muted); }
+    .event-badge { margin-left: auto; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+    .badge-pro  { background: #E6F1FB; color: #185FA5; }
+    .badge-com  { background: #FFF0E8; color: var(--orange); }
+    .badge-stem { background: #EAF3DE; color: #3B6D11; }
+
+    /* OFICIALES */
+    .officers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .officer-card { text-align: center; padding: 28px 16px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: pointer; }
+    .officer-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-box { background: #fff; border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%; display: flex; gap: 28px; align-items: flex-start; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,0.18); animation: scaleIn 0.25s ease; }
+    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1; padding: 4px; }
+    .modal-close:hover { color: #1a1a1a; }
+    .modal-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; flex-shrink: 0; }
+    .modal-info h3 { font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+    .modal-info .modal-role { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 600; margin-bottom: 12px; }
+    .modal-info p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .officer-avatar { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; margin: 0 auto 12px; }
+    .av-orange { background: #FFF0E8; color: var(--orange); }
+    .av-blue   { background: #E6F1FB; color: var(--blue); }
+    .av-navy   { background: var(--navy); color: var(--blue-lt); }
+    .av-red    { background: #FDECEA; color: var(--red); }
+    .officer-name { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+    .officer-role { font-size: 11px; color: var(--muted); }
+
+    /* REDES */
+    .socials-section { background: var(--navy); }
+    .socials-section .section-title { color: #fff; }
+    .socials-section .section-sub   { color: var(--blue-lt); }
+    .social-cards { display: flex; justify-content: center; gap: 20px; }
+    .social-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 32px 40px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius-lg); color: #fff; transition: background 0.2s, transform 0.15s; min-width: 180px; }
+    .social-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+    .social-card svg { width: 36px; height: 36px; fill: currentColor; }
+    .social-card.ig svg { color: var(--orange); }
+    .social-card.tk svg { color: var(--blue-lt); }
+    .social-card-name { font-size: 15px; font-weight: 600; }
+    .social-card-handle { font-size: 12px; color: var(--blue-lt); }
+
+    /* FOOTER */
+    footer { background: var(--navy-dark); padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-left p { color: #5B7FA8; font-size: 12px; }
+    .footer-right { display: flex; gap: 20px; }
+    .footer-right a { color: #5B7FA8; font-size: 12px; transition: color 0.2s; }
+    .footer-right a:hover { color: #fff; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 28px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .pillars { grid-template-columns: 1fr; }
+      .officers-grid { grid-template-columns: repeat(2, 1fr); }
+      .navbar-links { display: none; }
+      .hero-stats { gap: 20px; }
+      .social-cards { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="hex-logo"><img src="shpe_logo.jpg" alt="Logo SHPE" /></div>
+      <div>
+        <div class="brand-name">SHPE Sagrado Corazón de Jesús</div>
+        <div class="brand-sub">Capítulo Estudiantil</div>
+      </div>
+    </div>
+    <ul class="navbar-links">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#hacemos">Lo que hacemos</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#oficiales">Oficiales</a></li>
+      <li><a href="#redes">Contacto</a></li>
+    </ul>
+    <div class="navbar-socials">
+      <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener" class="nav-social">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308C2.497 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.446 2.497 5.713 2.225 7.079 2.163 8.345 2.105 8.725 2.093 12 2.093zm0-2.163c-3.259 0-3.667.014-4.947.072-1.628.074-3.078.448-4.235 1.604C1.661 2.772 1.287 4.222 1.213 5.85.155 7.13.141 7.538.141 12c0 4.462.014 4.87.072 6.15.074 1.628.448 3.078 1.604 4.235 1.157 1.156 2.607 1.53 4.235 1.604C7.333 23.986 7.741 24 12 24s4.667-.014 4.947-.072c1.628-.074 3.078-.448 4.235-1.604 1.156-1.157 1.53-2.607 1.604-4.235.058-1.28.072-1.688.072-6.15 0-4.462-.014-4.87-.072-6.15-.074-1.628-.448-3.078-1.604-4.235C19.025.52 17.575.146 15.947.072 14.667.014 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener" class="nav-social">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+        TikTok
+      </a>
+    </div>
+  </nav>
+
+  <div id="page-content">
+
+  <!-- HERO -->
+  <header class="hero" id="inicio">
+    <div class="container">
+      <div class="hero-tag hero-anim">Hispanos en STEM · Ponce, Puerto Rico</div>
+      <h1 class="hero-anim-d">Construyendo el futuro<br>de <em>Puerto Rico</em></h1>
+      <p class="hero-desc hero-anim-s">Somos el capítulo de SHPE del Colegio Sagrado Corazón de Jesús en Ponce. Unimos estudiantes apasionados por las ciencias, la tecnología, la ingeniería y las matemáticas para crecer juntos y dejar huella.</p>
+      <div class="hero-btns hero-anim-s">
+        <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener" class="btn btn-ig">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308C2.497 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.446 2.497 5.713 2.225 7.079 2.163 8.345 2.105 8.725 2.093 12 2.093zm0-2.163c-3.259 0-3.667.014-4.947.072-1.628.074-3.078.448-4.235 1.604C1.661 2.772 1.287 4.222 1.213 5.85.155 7.13.141 7.538.141 12c0 4.462.014 4.87.072 6.15.074 1.628.448 3.078 1.604 4.235 1.157 1.156 2.607 1.53 4.235 1.604C7.333 23.986 7.741 24 12 24s4.667-.014 4.947-.072c1.628-.074 3.078-.448 4.235-1.604 1.156-1.157 1.53-2.607 1.604-4.235.058-1.28.072-1.688.072-6.15 0-4.462-.014-4.87-.072-6.15-.074-1.628-.448-3.078-1.604-4.235C19.025.52 17.575.146 15.947.072 14.667.014 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          Síguenos en Instagram
+        </a>
+        <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener" class="btn btn-tk">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+          Síguenos en TikTok
+        </a>
+      </div>
+      <div class="hero-stats hero-anim-b">
+        <div><div class="stat-val">50+</div><div class="stat-lbl">Miembros activos</div></div>
+        <div><div class="stat-val">20+</div><div class="stat-lbl">Eventos al año</div></div>
+        <div><div class="stat-val">Ponce</div><div class="stat-lbl">Puerto Rico</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- QUIENES SOMOS -->
+  <section class="section" id="nosotros">
+    <div class="container">
+      <div class="section-eyebrow reveal">Quiénes somos</div>
+      <div class="section-title reveal">Más que un club — una comunidad</div>
+      <div class="section-sub reveal">Conoce nuestra misión y lo que nos mueve</div>
+      <div class="about-grid">
+        <div class="about-card reveal reveal-delay-1">
+          <h3>Nuestra misión</h3>
+          <p>Empoderar a jóvenes hispanos del Colegio Sagrado Corazón de Jesús a descubrir y desarrollar su potencial en las áreas de STEM, preparándolos para el futuro con herramientas, mentoría y comunidad.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-2">
+          <h3>Nuestra visión</h3>
+          <p>Un Puerto Rico donde los jóvenes hispanos lideran la innovación, la ciencia y la ingeniería a nivel mundial — con orgullo, confianza y raíces ponceñas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- LO QUE HACEMOS -->
+  <section class="section pillars-bg" id="hacemos">
+    <div class="container">
+      <div class="section-eyebrow reveal">Lo que hacemos</div>
+      <div class="section-title reveal">Tres pilares que nos guían</div>
+      <div class="section-sub reveal">Actividades pensadas para tu crecimiento</div>
+      <div class="pillars">
+        <div class="pillar reveal reveal-delay-1">
+          <div class="pillar-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3>Desarrollo profesional</h3>
+          <p>Talleres, charlas con ingenieros y científicos, y preparación para tu futuro universitario y laboral en STEM.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-2">
+          <div class="pillar-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Mentoría</h3>
+          <p>Conexión con estudiantes universitarios y profesionales hispanos que han recorrido el camino antes que tú.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-3">
+          <div class="pillar-icon red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          </div>
+          <h3>Divulgación STEM</h3>
+          <p>Actividades en la comunidad para inspirar a más jóvenes de Ponce a enamorarse de la ciencia y la tecnología.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFICIALES -->
+  <section class="section" id="oficiales">
+    <div class="container">
+      <div class="section-eyebrow reveal">Liderazgo</div>
+      <div class="section-title reveal">Nuestros oficiales</div>
+      <div class="section-sub reveal">El equipo detrás del capítulo</div>
+      <div class="officers-grid">
+        <div class="officer-card reveal reveal-delay-1" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes hispanos a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
+          <div class="officer-avatar av-orange">AC</div>
+          <div class="officer-name">Alexander Colón</div>
+          <div class="officer-role">Presidente</div>
+        </div>
+        <div class="officer-card reveal reveal-delay-2" data-bio="Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado." data-avatar-class="av-blue" data-initials="GL">
+          <div class="officer-avatar av-blue">GL</div>
+          <div class="officer-name">Gabriela Landers</div>
+          <div class="officer-role">Vicepresidenta</div>
+        </div>
+        <div class="officer-card reveal reveal-delay-3" data-bio="Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden." data-avatar-class="av-navy" data-initials="DM">
+          <div class="officer-avatar av-navy">DM</div>
+          <div class="officer-name">Derek Martell</div>
+          <div class="officer-role">Secretario</div>
+        </div>
+        <div class="officer-card reveal reveal-delay-4" data-bio="Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo." data-avatar-class="av-red" data-initials="JS">
+          <div class="officer-avatar av-red">JS</div>
+          <div class="officer-name">Joredis Sierra</div>
+          <div class="officer-role">Tesorera</div>
+        </div>
+        <div class="officer-card reveal reveal-delay-1" data-bio="Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros." data-avatar-class="av-blue" data-initials="FD">
+          <div class="officer-avatar av-blue">FD</div>
+          <div class="officer-name">Fabiola Delgado</div>
+          <div class="officer-role">Historiadora</div>
+        </div>
+        <div class="officer-card reveal reveal-delay-2" data-bio="Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad." data-avatar-class="av-orange" data-initials="MS">
+          <div class="officer-avatar av-orange">MS</div>
+          <div class="officer-name">Miranda Santiago</div>
+          <div class="officer-role">Publicista</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REDES SOCIALES -->
+  <section class="section socials-section" id="redes">
+    <div class="container" style="text-align:center;">
+      <div class="section-eyebrow reveal" style="color:var(--blue-lt);">Encuéntranos</div>
+      <div class="section-title reveal">Síguenos en redes sociales</div>
+      <div class="section-sub reveal">Mantente al día con nuestras actividades, logros y contenido STEM</div>
+      <div class="social-cards">
+        <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener" class="social-card ig reveal reveal-delay-1">
+          <svg viewBox="0 0 24 24" aria-label="Instagram"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308C2.497 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.446 2.497 5.713 2.225 7.079 2.163 8.345 2.105 8.725 2.093 12 2.093zm0-2.163c-3.259 0-3.667.014-4.947.072-1.628.074-3.078.448-4.235 1.604C1.661 2.772 1.287 4.222 1.213 5.85.155 7.13.141 7.538.141 12c0 4.462.014 4.87.072 6.15.074 1.628.448 3.078 1.604 4.235 1.157 1.156 2.607 1.53 4.235 1.604C7.333 23.986 7.741 24 12 24s4.667-.014 4.947-.072c1.628-.074 3.078-.448 4.235-1.604 1.156-1.157 1.53-2.607 1.604-4.235.058-1.28.072-1.688.072-6.15 0-4.462-.014-4.87-.072-6.15-.074-1.628-.448-3.078-1.604-4.235C19.025.52 17.575.146 15.947.072 14.667.014 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          <span class="social-card-name">Instagram</span>
+          <span class="social-card-handle">@shpe_cscj</span>
+        </a>
+        <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener" class="social-card tk reveal reveal-delay-2">
+          <svg viewBox="0 0 24 24" aria-label="TikTok"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+          <span class="social-card-name">TikTok</span>
+          <span class="social-card-handle">@shpejr.sagradoponce</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  </div> <!-- end page-content -->
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="officerModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <div class="modal-info">
+        <h3 id="modalName"></h3>
+        <div class="modal-role" id="modalRole"></div>
+        <p id="modalBio"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <p>© 2026 SHPE · Colegio Sagrado Corazón de Jesús · Ponce, Puerto Rico</p>
+    </div>
+    <div class="footer-right">
+      <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://shpe.org" target="_blank" rel="noopener">shpe.org</a>
+    </div>
+  </footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.navbar');
+    if (window.scrollY > 60) {
+      nav.style.background = 'rgba(26,43,95,0.92)';
+      nav.classList.add('nav-blur');
+    } else {
+      nav.style.background = 'var(--navy)';
+      nav.classList.remove('nav-blur');
+    }
+  }, { passive: true });
+
+  // Modal
+  const modal = document.getElementById('officerModal');
+  const modalAvatar = document.getElementById('modalAvatar');
+  const modalName = document.getElementById('modalName');
+  const modalRole = document.getElementById('modalRole');
+  const modalBio = document.getElementById('modalBio');
+
+  document.querySelectorAll('.officer-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const name = card.querySelector('.officer-name').textContent;
+      const role = card.querySelector('.officer-role').textContent;
+      const bio = card.dataset.bio;
+      const avatarClass = card.dataset.avatarClass;
+      const initials = card.dataset.initials;
+
+      modalAvatar.className = 'modal-avatar ' + avatarClass;
+      modalAvatar.textContent = initials;
+      modalName.textContent = name;
+      modalRole.textContent = role;
+      modalBio.textContent = bio;
+      modal.classList.add('active');
+    });
+  });
+
+  document.getElementById('modalClose').addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.classList.remove('active');
+  });
+
+  // Overscroll bounce
+  (function() {
+    var content = document.getElementById('page-content');
+    var offset = 0;
+    var velocity = 0;
+    var rafId = null;
+    var releaseTimer = null;
+    var MAX_PULL = 100;
+    var DAMPING = 0.5;
+    var SPRING = 0.05;
+    var FRICTION = 0.82;
+
+    function update() {
+      var springForce = -offset * SPRING;
+      velocity += springForce;
+      velocity *= FRICTION;
+      offset += velocity;
+
+      if (Math.abs(offset) < 0.3 && Math.abs(velocity) < 0.1) {
+        offset = 0;
+        velocity = 0;
+        content.style.transform = '';
+        rafId = null;
+        return;
+      }
+
+      content.style.transform = 'translateY(' + offset + 'px)';
+      rafId = requestAnimationFrame(update);
+    }
+
+    function startSpring() {
+      if (rafId) return;
+      rafId = requestAnimationFrame(update);
+    }
+
+    function applyPull(delta) {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      offset += delta * DAMPING;
+      if (offset > MAX_PULL) offset = MAX_PULL;
+      if (offset < -MAX_PULL) offset = -MAX_PULL;
+      content.style.transform = 'translateY(' + offset + 'px)';
+
+      if (releaseTimer) clearTimeout(releaseTimer);
+      releaseTimer = setTimeout(function() {
+        releaseTimer = null;
+        if (offset !== 0) startSpring();
+      }, 120);
+    }
+
+    function isAtTop() { return window.scrollY <= 0; }
+    function isAtBottom() { return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2; }
+
+    window.addEventListener('wheel', function(e) {
+      if ((isAtTop() && e.deltaY < 0) || (isAtBottom() && e.deltaY > 0)) {
+        e.preventDefault();
+        applyPull(-e.deltaY);
+        return;
+      }
+      if (offset !== 0 && !isAtTop() && !isAtBottom()) {
+        startSpring();
+      }
+    }, { passive: false });
+
+    window.addEventListener('scroll', function() {
+      if (offset !== 0 && !isAtTop() && !isAtBottom()) {
+        startSpring();
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', function() {
+      if (offset !== 0) startSpring();
+    });
+  })();
+</script>
+</body>
+</html>
