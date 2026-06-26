@@ -124,10 +124,9 @@
     .v-carousel { width: 100%; height: 520px; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
     .v-carousel::-webkit-scrollbar { display: none; }
     .v-track { display: flex; flex-direction: column; align-items: center; gap: 40px; }
-    .v-card { flex-shrink: 0; width: 100%; max-width: 420px; text-align: center; padding: 48px 32px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: 20px; box-shadow: 0 12px 40px rgba(26,43,95,0.2); transform-origin: center center; will-change: transform, opacity; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: box-shadow 0.4s ease; position: relative; }
-    .v-card::after { content: '↗'; position: absolute; bottom: 14px; right: 18px; font-size: 13px; color: rgba(255,255,255,0.25); transition: color 0.3s, transform 0.3s; pointer-events: none; }
-    .v-card:hover::after { color: rgba(255,255,255,0.6); transform: translate(2px, -2px); }
-    .v-card:hover { box-shadow: 0 16px 48px rgba(26,43,95,0.3); }
+    .v-card { flex-shrink: 0; width: 100%; max-width: 420px; text-align: center; padding: 48px 32px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: 20px; box-shadow: 0 12px 40px rgba(26,43,95,0.2), 0 4px 12px rgba(0,0,0,0.1); transform-origin: center center; will-change: transform, opacity; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: box-shadow 0.4s ease, filter 0.25s ease; position: relative; }
+    .v-card:hover { box-shadow: 0 16px 48px rgba(26,43,95,0.3), 0 12px 28px rgba(0,0,0,0.2); }
+    .v-card:active { filter: brightness(0.93); }
     .v-card .officer-avatar { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; margin: 0 auto 20px; }
     .v-card .officer-name { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
     .v-card .officer-role { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #FF8A4C; }
@@ -181,12 +180,12 @@
       .about-grid { grid-template-columns: 1fr; }
       .pillars { grid-template-columns: 1fr; }
       .v-carousel { height: 420px; }
-      .v-card { box-shadow: 0 4px 16px rgba(26,43,95,0.12); }
-      .v-card:hover { box-shadow: 0 6px 20px rgba(26,43,95,0.18); }
-      .v-card::after { animation: hint-pulse 3s ease-in-out infinite; }
-      @keyframes hint-pulse { 0%, 100% { opacity: 0.25; transform: translate(0, 0); } 50% { opacity: 0.6; transform: translate(2px, -2px); } }
+      .v-card { box-shadow: 0 4px 16px rgba(26,43,95,0.12), 0 4px 12px rgba(0,0,0,0.08); }
+      .v-card:hover { box-shadow: 0 6px 20px rgba(26,43,95,0.18), 0 8px 20px rgba(0,0,0,0.12); }
       .navbar-links { display: none; }
       .navbar-socials { display: none; }
+      .navbar { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .hero { padding-top: 64px; }
       .hero-stats { gap: 20px; }
       .social-cards { flex-direction: column; align-items: center; }
     }
@@ -304,7 +303,7 @@
   <section class="section" id="oficiales">
     <div class="container">
       <div class="section-eyebrow reveal">Liderazgo</div>
-      <div class="section-title reveal">Nuestros oficiales</div>
+      <div class="section-title reveal">Nuestra directiva</div>
       <div class="section-sub reveal">El equipo detrás del capítulo</div>
       <div class="v-carousel reveal">
         <div class="v-track">
