@@ -121,9 +121,18 @@
     .badge-stem { background: #EAF3DE; color: #3B6D11; }
 
     /* OFICIALES */
-    .officers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .officer-card { text-align: center; padding: 28px 16px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); transition: transform 0.25s ease, box-shadow 0.25s ease; cursor: pointer; }
-    .officer-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .v-carousel { width: 100%; height: 520px; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .v-carousel::-webkit-scrollbar { display: none; }
+    .v-track { display: flex; flex-direction: column; align-items: center; gap: 40px; }
+    .v-card { flex-shrink: 0; width: 100%; max-width: 420px; text-align: center; padding: 48px 32px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: 20px; box-shadow: 0 12px 40px rgba(26,43,95,0.2); transform-origin: center center; will-change: transform, opacity; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: box-shadow 0.4s ease; }
+    .v-card:hover { box-shadow: 0 16px 48px rgba(26,43,95,0.3); }
+    .v-card .officer-avatar { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; margin: 0 auto 20px; }
+    .v-card .officer-name { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .v-card .officer-role { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #FF8A4C; }
+    .v-card .av-orange { background: rgba(232,80,10,0.15); color: #FF8A4C; }
+    .v-card .av-blue { background: rgba(46,95,163,0.15); color: #7BB3E0; }
+    .v-card .av-navy { background: rgba(91,155,213,0.15); color: #8BBFE8; }
+    .v-card .av-red { background: rgba(192,57,43,0.15); color: #E8746A; }
 
     /* MODAL */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
@@ -168,7 +177,7 @@
       .hero h1 { font-size: 28px; }
       .about-grid { grid-template-columns: 1fr; }
       .pillars { grid-template-columns: 1fr; }
-      .officers-grid { grid-template-columns: repeat(2, 1fr); }
+      .v-carousel { height: 360px; }
       .navbar-links { display: none; }
       .hero-stats { gap: 20px; }
       .social-cards { flex-direction: column; align-items: center; }
@@ -189,7 +198,6 @@
     <ul class="navbar-links">
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#hacemos">Lo que hacemos</a></li>
-      <li><a href="#eventos">Eventos</a></li>
       <li><a href="#oficiales">Oficiales</a></li>
       <li><a href="#redes">Contacto</a></li>
     </ul>
@@ -290,36 +298,38 @@
       <div class="section-eyebrow reveal">Liderazgo</div>
       <div class="section-title reveal">Nuestros oficiales</div>
       <div class="section-sub reveal">El equipo detrás del capítulo</div>
-      <div class="officers-grid">
-        <div class="officer-card reveal reveal-delay-1" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
-          <div class="officer-avatar av-orange">AC</div>
-          <div class="officer-name">Alexander Colón</div>
-          <div class="officer-role">Presidente</div>
-        </div>
-        <div class="officer-card reveal reveal-delay-2" data-bio="Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado." data-avatar-class="av-blue" data-initials="GL">
-          <div class="officer-avatar av-blue">GL</div>
-          <div class="officer-name">Gabriela Landers</div>
-          <div class="officer-role">Vicepresidenta</div>
-        </div>
-        <div class="officer-card reveal reveal-delay-3" data-bio="Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden." data-avatar-class="av-navy" data-initials="DM">
-          <div class="officer-avatar av-navy">DM</div>
-          <div class="officer-name">Derek Martell</div>
-          <div class="officer-role">Secretario</div>
-        </div>
-        <div class="officer-card reveal reveal-delay-4" data-bio="Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo." data-avatar-class="av-red" data-initials="JS">
-          <div class="officer-avatar av-red">JS</div>
-          <div class="officer-name">Joredis Sierra</div>
-          <div class="officer-role">Tesorera</div>
-        </div>
-        <div class="officer-card reveal reveal-delay-1" data-bio="Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros." data-avatar-class="av-blue" data-initials="FD">
-          <div class="officer-avatar av-blue">FD</div>
-          <div class="officer-name">Fabiola Delgado</div>
-          <div class="officer-role">Historiadora</div>
-        </div>
-        <div class="officer-card reveal reveal-delay-2" data-bio="Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad." data-avatar-class="av-orange" data-initials="MS">
-          <div class="officer-avatar av-orange">MS</div>
-          <div class="officer-name">Miranda Santiago</div>
-          <div class="officer-role">Publicista</div>
+      <div class="v-carousel reveal">
+        <div class="v-track">
+          <div class="v-card officer-card" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
+            <div class="officer-avatar av-orange">AC</div>
+            <div class="officer-name">Alexander Colón</div>
+            <div class="officer-role">Presidente</div>
+          </div>
+          <div class="v-card officer-card" data-bio="Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado." data-avatar-class="av-blue" data-initials="GL">
+            <div class="officer-avatar av-blue">GL</div>
+            <div class="officer-name">Gabriela Landers</div>
+            <div class="officer-role">Vicepresidenta</div>
+          </div>
+          <div class="v-card officer-card" data-bio="Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden." data-avatar-class="av-navy" data-initials="DM">
+            <div class="officer-avatar av-navy">DM</div>
+            <div class="officer-name">Derek Martell</div>
+            <div class="officer-role">Secretario</div>
+          </div>
+          <div class="v-card officer-card" data-bio="Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo." data-avatar-class="av-red" data-initials="JS">
+            <div class="officer-avatar av-red">JS</div>
+            <div class="officer-name">Joredis Sierra</div>
+            <div class="officer-role">Tesorera</div>
+          </div>
+          <div class="v-card officer-card" data-bio="Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros." data-avatar-class="av-blue" data-initials="FD">
+            <div class="officer-avatar av-blue">FD</div>
+            <div class="officer-name">Fabiola Delgado</div>
+            <div class="officer-role">Historiadora</div>
+          </div>
+          <div class="v-card officer-card" data-bio="Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad." data-avatar-class="av-orange" data-initials="MS">
+            <div class="officer-avatar av-orange">MS</div>
+            <div class="officer-name">Miranda Santiago</div>
+            <div class="officer-role">Publicista</div>
+          </div>
         </div>
       </div>
     </div>
@@ -402,22 +412,99 @@
   const modalRole = document.getElementById('modalRole');
   const modalBio = document.getElementById('modalBio');
 
-  document.querySelectorAll('.officer-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const name = card.querySelector('.officer-name').textContent;
-      const role = card.querySelector('.officer-role').textContent;
-      const bio = card.dataset.bio;
-      const avatarClass = card.dataset.avatarClass;
-      const initials = card.dataset.initials;
+  // Vertical carousel
+  (function() {
+    var carousel = document.querySelector('.v-carousel');
+    if (!carousel) return;
+    var track = document.querySelector('.v-track');
+    var cards = track.querySelectorAll('.v-card');
+    var snapRaf = null, snapTimer = null, isSnapping = false;
 
-      modalAvatar.className = 'modal-avatar ' + avatarClass;
-      modalAvatar.textContent = initials;
-      modalName.textContent = name;
-      modalRole.textContent = role;
-      modalBio.textContent = bio;
-      modal.classList.add('active');
+    function measure() {
+      var ch = carousel.offsetHeight;
+      var cardH = Math.min(340, ch * 0.68);
+      for (var i = 0; i < cards.length; i++) {
+        cards[i].style.minHeight = cardH + 'px';
+      }
+      var pad = Math.max(0, (ch - cardH) / 2);
+      track.style.paddingTop = pad + 'px';
+      track.style.paddingBottom = pad + 'px';
+    }
+
+    function cancelSnap() {
+      isSnapping = false;
+      if (snapRaf) { cancelAnimationFrame(snapRaf); snapRaf = null; }
+      clearTimeout(snapTimer);
+    }
+
+    function render() {
+      var ch = carousel.offsetHeight;
+      var scroll = carousel.scrollTop;
+      var cy = ch / 2;
+      for (var i = 0; i < cards.length; i++) {
+        var cardCenter = cards[i].offsetTop + cards[i].offsetHeight / 2;
+        var dist = Math.abs(cardCenter - scroll - cy);
+        var ratio = 1 - Math.min(1, dist / (ch * 0.9));
+        cards[i].style.transform = 'scale(' + (0.78 + ratio * 0.22) + ')';
+        cards[i].style.zIndex = Math.round(ratio * 10);
+        cards[i].style.boxShadow = ratio > 0.7 ? '0 20px 60px rgba(0,0,0,0.35)' : '0 8px 24px rgba(0,0,0,0.15)';
+      }
+    }
+
+    function getSnapTarget() {
+      var ch = carousel.offsetHeight;
+      var scroll = carousel.scrollTop;
+      var cy = ch / 2;
+      var near = 0, nearDist = Infinity;
+      for (var i = 0; i < cards.length; i++) {
+        var cardCenter = cards[i].offsetTop + cards[i].offsetHeight / 2;
+        var dist = Math.abs(cardCenter - scroll - cy);
+        if (dist < nearDist) { nearDist = dist; near = i; }
+      }
+      return cards[near].offsetTop + cards[near].offsetHeight / 2 - cy;
+    }
+
+    function snap() {
+      isSnapping = true;
+      var target = getSnapTarget();
+      var start = carousel.scrollTop;
+      var diff = target - start;
+      if (Math.abs(diff) < 30) { carousel.scrollTop = target; render(); isSnapping = false; return; }
+      var t0 = performance.now();
+      (function frame(now) {
+        var t = Math.min(1, (now - t0) / 200);
+        carousel.scrollTop = start + diff * (1 - Math.pow(1 - t, 3));
+        render();
+        if (t < 1) snapRaf = requestAnimationFrame(frame);
+        else { snapRaf = null; isSnapping = false; }
+      })(t0);
+    }
+
+    carousel.addEventListener('scroll', function() {
+      if (isSnapping) { render(); return; }
+      cancelSnap();
+      render();
+      snapTimer = setTimeout(snap, 150);
+    }, { passive: true });
+
+    carousel.addEventListener('wheel', function() { if (isSnapping) cancelSnap(); }, { passive: true });
+    carousel.addEventListener('touchstart', function() { if (isSnapping) cancelSnap(); }, { passive: true });
+
+    cards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        modalAvatar.className = 'modal-avatar ' + card.dataset.avatarClass;
+        modalAvatar.textContent = card.dataset.initials;
+        modalName.textContent = card.querySelector('.officer-name').textContent;
+        modalRole.textContent = card.querySelector('.officer-role').textContent;
+        modalBio.textContent = card.dataset.bio;
+        modal.classList.add('active');
+      });
     });
-  });
+
+    measure();
+    render();
+    window.addEventListener('resize', function() { measure(); render(); });
+  })();
 
   document.getElementById('modalClose').addEventListener('click', () => {
     modal.classList.remove('active');
