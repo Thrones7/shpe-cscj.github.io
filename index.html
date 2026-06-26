@@ -244,7 +244,7 @@
         </div>
         <div class="about-card reveal reveal-delay-2">
           <h3>Nuestra visión</h3>
-          <p>Un Puerto Rico donde los jóvenes hispanos lideran la innovación, la ciencia y la ingeniería a nivel mundial — con orgullo, confianza y raíces ponceñas.</p>
+          <p>Un Puerto Rico donde los jóvenes hispanos lideran la innovación, la ciencia y la ingeniería a nivel mundial — con orgullo y confianza.</p>
         </div>
       </div>
     </div>
@@ -278,7 +278,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
           </div>
           <h3>Divulgación STEM</h3>
-          <p>Actividades en la comunidad para inspirar a más jóvenes de Ponce a enamorarse de la ciencia y la tecnología.</p>
+          <p>Actividades en la comunidad para inspirar a más jóvenes a enamorarse de la ciencia y la tecnología.</p>
         </div>
       </div>
     </div>
@@ -291,7 +291,7 @@
       <div class="section-title reveal">Nuestros oficiales</div>
       <div class="section-sub reveal">El equipo detrás del capítulo</div>
       <div class="officers-grid">
-        <div class="officer-card reveal reveal-delay-1" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes hispanos a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
+        <div class="officer-card reveal reveal-delay-1" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
           <div class="officer-avatar av-orange">AC</div>
           <div class="officer-name">Alexander Colón</div>
           <div class="officer-role">Presidente</div>
@@ -431,79 +431,6 @@
     if (e.key === 'Escape') modal.classList.remove('active');
   });
 
-  // Overscroll bounce
-  (function() {
-    var content = document.getElementById('page-content');
-    var offset = 0;
-    var velocity = 0;
-    var rafId = null;
-    var releaseTimer = null;
-    var MAX_PULL = 100;
-    var DAMPING = 0.5;
-    var SPRING = 0.05;
-    var FRICTION = 0.82;
-
-    function update() {
-      var springForce = -offset * SPRING;
-      velocity += springForce;
-      velocity *= FRICTION;
-      offset += velocity;
-
-      if (Math.abs(offset) < 0.3 && Math.abs(velocity) < 0.1) {
-        offset = 0;
-        velocity = 0;
-        content.style.transform = '';
-        rafId = null;
-        return;
-      }
-
-      content.style.transform = 'translateY(' + offset + 'px)';
-      rafId = requestAnimationFrame(update);
-    }
-
-    function startSpring() {
-      if (rafId) return;
-      rafId = requestAnimationFrame(update);
-    }
-
-    function applyPull(delta) {
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-      offset += delta * DAMPING;
-      if (offset > MAX_PULL) offset = MAX_PULL;
-      if (offset < -MAX_PULL) offset = -MAX_PULL;
-      content.style.transform = 'translateY(' + offset + 'px)';
-
-      if (releaseTimer) clearTimeout(releaseTimer);
-      releaseTimer = setTimeout(function() {
-        releaseTimer = null;
-        if (offset !== 0) startSpring();
-      }, 120);
-    }
-
-    function isAtTop() { return window.scrollY <= 0; }
-    function isAtBottom() { return window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2; }
-
-    window.addEventListener('wheel', function(e) {
-      if ((isAtTop() && e.deltaY < 0) || (isAtBottom() && e.deltaY > 0)) {
-        e.preventDefault();
-        applyPull(-e.deltaY);
-        return;
-      }
-      if (offset !== 0 && !isAtTop() && !isAtBottom()) {
-        startSpring();
-      }
-    }, { passive: false });
-
-    window.addEventListener('scroll', function() {
-      if (offset !== 0 && !isAtTop() && !isAtBottom()) {
-        startSpring();
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchend', function() {
-      if (offset !== 0) startSpring();
-    });
-  })();
 </script>
 </body>
 </html>
