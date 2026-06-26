@@ -307,6 +307,11 @@
       <div class="section-sub reveal">El equipo detrás del capítulo</div>
       <div class="v-carousel reveal">
         <div class="v-track">
+          <div class="v-card officer-card" data-bio="Placeholder — bio próximamente." data-avatar-class="av-navy" data-initials="EA">
+            <div class="officer-avatar av-navy">EA</div>
+            <div class="officer-name">Elena Albertorio</div>
+            <div class="officer-role">Moderadora</div>
+          </div>
           <div class="v-card officer-card" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
             <div class="officer-avatar av-orange">AC</div>
             <div class="officer-name">Alexander Colón</div>
@@ -419,6 +424,23 @@
   const modalRole = document.getElementById('modalRole');
   const modalBio = document.getElementById('modalBio');
 
+  var typeInterval = null;
+
+  function clearType() {
+    if (typeInterval) { clearInterval(typeInterval); typeInterval = null; }
+  }
+
+  function typeBio(text, el, speed) {
+    clearType();
+    el.textContent = '';
+    var i = 0;
+    typeInterval = setInterval(function() {
+      el.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) { clearInterval(typeInterval); typeInterval = null; }
+    }, speed || 25);
+  }
+
   // Vertical carousel
   (function() {
     var carousel = document.querySelector('.v-carousel');
@@ -502,12 +524,14 @@
 
     cards.forEach(function(card) {
       card.addEventListener('click', function() {
+        clearType();
         modalAvatar.className = 'modal-avatar ' + card.dataset.avatarClass;
         modalAvatar.textContent = card.dataset.initials;
         modalName.textContent = card.querySelector('.officer-name').textContent;
         modalRole.textContent = card.querySelector('.officer-role').textContent;
-        modalBio.textContent = card.dataset.bio;
+        modalBio.textContent = '';
         modal.classList.add('active');
+        typeBio(card.dataset.bio, modalBio, 20);
       });
     });
 
@@ -517,15 +541,16 @@
   })();
 
   document.getElementById('modalClose').addEventListener('click', () => {
+    clearType();
     modal.classList.remove('active');
   });
 
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('active');
+    if (e.target === modal) { clearType(); modal.classList.remove('active'); }
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') modal.classList.remove('active');
+    if (e.key === 'Escape') { clearType(); modal.classList.remove('active'); }
   });
 
 </script>
