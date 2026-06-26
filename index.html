@@ -124,7 +124,9 @@
     .v-carousel { width: 100%; height: 520px; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
     .v-carousel::-webkit-scrollbar { display: none; }
     .v-track { display: flex; flex-direction: column; align-items: center; gap: 40px; }
-    .v-card { flex-shrink: 0; width: 100%; max-width: 420px; text-align: center; padding: 48px 32px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: 20px; box-shadow: 0 12px 40px rgba(26,43,95,0.2); transform-origin: center center; will-change: transform, opacity; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: box-shadow 0.4s ease; }
+    .v-card { flex-shrink: 0; width: 100%; max-width: 420px; text-align: center; padding: 48px 32px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: 20px; box-shadow: 0 12px 40px rgba(26,43,95,0.2); transform-origin: center center; will-change: transform, opacity; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: box-shadow 0.4s ease; position: relative; }
+    .v-card::after { content: '↗'; position: absolute; bottom: 14px; right: 18px; font-size: 13px; color: rgba(255,255,255,0.25); transition: color 0.3s, transform 0.3s; pointer-events: none; }
+    .v-card:hover::after { color: rgba(255,255,255,0.6); transform: translate(2px, -2px); }
     .v-card:hover { box-shadow: 0 16px 48px rgba(26,43,95,0.3); }
     .v-card .officer-avatar { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; margin: 0 auto 20px; }
     .v-card .officer-name { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
@@ -135,9 +137,10 @@
     .v-card .av-red { background: rgba(192,57,43,0.15); color: #E8746A; }
 
     /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; }
-    .modal-overlay.active { display: flex; opacity: 1; }
-    .modal-box { background: #fff; border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%; display: flex; gap: 28px; align-items: flex-start; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,0.18); animation: scaleIn 0.25s ease; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+    .modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+    .modal-box { background: #fff; border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%; display: flex; gap: 28px; align-items: flex-start; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,0.18); transform: scale(0.9); transition: transform 0.25s ease; }
+    .modal-overlay.active .modal-box { transform: scale(1); }
     .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1; padding: 4px; }
     .modal-close:hover { color: #1a1a1a; }
     .modal-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; flex-shrink: 0; }
@@ -177,9 +180,11 @@
       .hero h1 { font-size: 28px; }
       .about-grid { grid-template-columns: 1fr; }
       .pillars { grid-template-columns: 1fr; }
-      .v-carousel { height: 360px; }
+      .v-carousel { height: 420px; }
       .v-card { box-shadow: 0 4px 16px rgba(26,43,95,0.12); }
       .v-card:hover { box-shadow: 0 6px 20px rgba(26,43,95,0.18); }
+      .v-card::after { animation: hint-pulse 3s ease-in-out infinite; }
+      @keyframes hint-pulse { 0%, 100% { opacity: 0.25; transform: translate(0, 0); } 50% { opacity: 0.6; transform: translate(2px, -2px); } }
       .navbar-links { display: none; }
       .navbar-socials { display: none; }
       .hero-stats { gap: 20px; }
@@ -425,7 +430,8 @@
 
     function measure() {
       var ch = carousel.offsetHeight;
-      var cardH = Math.min(340, ch * 0.68);
+      var ratio = window.innerWidth < 600 ? 0.55 : 0.68;
+      var cardH = Math.min(340, ch * ratio);
       for (var i = 0; i < cards.length; i++) {
         cards[i].style.minHeight = cardH + 'px';
       }
