@@ -178,7 +178,10 @@
       .about-grid { grid-template-columns: 1fr; }
       .pillars { grid-template-columns: 1fr; }
       .v-carousel { height: 360px; }
+      .v-card { box-shadow: 0 4px 16px rgba(26,43,95,0.12); }
+      .v-card:hover { box-shadow: 0 6px 20px rgba(26,43,95,0.18); }
       .navbar-links { display: none; }
+      .navbar-socials { display: none; }
       .hero-stats { gap: 20px; }
       .social-cards { flex-direction: column; align-items: center; }
     }
@@ -447,7 +450,9 @@
         var ratio = 1 - Math.min(1, dist / (ch * 0.9));
         cards[i].style.transform = 'scale(' + (0.78 + ratio * 0.22) + ')';
         cards[i].style.zIndex = Math.round(ratio * 10);
-        cards[i].style.boxShadow = ratio > 0.7 ? '0 20px 60px rgba(0,0,0,0.35)' : '0 8px 24px rgba(0,0,0,0.15)';
+        var shadowSm = window.innerWidth < 600 ? '0 4px 12px rgba(0,0,0,0.08)' : '0 8px 24px rgba(0,0,0,0.15)';
+        var shadowLg = window.innerWidth < 600 ? '0 8px 24px rgba(0,0,0,0.2)' : '0 20px 60px rgba(0,0,0,0.35)';
+        cards[i].style.boxShadow = ratio > 0.7 ? shadowLg : shadowSm;
       }
     }
 
