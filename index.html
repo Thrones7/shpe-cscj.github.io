@@ -139,6 +139,631 @@
   .card-inner { position: relative; width: 100%; height: 340px; transition: transform 0.6s ease; transform-style: preserve-3d; }
   .officer-card.flipped .card-inner { transform: rotateY(180deg); }
   .card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 24px; padding: 48px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .card-front::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: border-pulse 2.5s ease-in-out infinite; }
+  .card-front::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: border-pulse 2.5s ease-in-out infinite; }
+  .card-back { transform: rotateY(180deg); border: 2px solid rgba(232,80,10,0.2); overflow: hidden; }
+  .card-back::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: border-pulse 2.5s ease-in-out infinite; }
+  .card-back::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: border-pulse 2.5s ease-in-out infinite; }
+  .card-hex { position: absolute; width: 100px; height: 100px; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.05; top: -30px; right: -30px; animation: hex-rotate 25s linear infinite; pointer-events: none; }
+  @keyframes border-pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.9; } }
+  .card-back p { font-size: 15px; color: #B8CCE4; line-height: 1.7; max-width: 360px; margin: 0 auto; }
+  .card-hint { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 16px; letter-spacing: 0.5px; }
+  .officer-card .officer-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; margin: 0 auto 24px; }
+  .officer-card .officer-name { font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .officer-card .officer-role { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.8px; color: #FF8A4C; margin-bottom: 0; }
+  .officer-card .av-orange { background: rgba(232,80,10,0.15); color: #FF8A4C; }
+  .officer-card .av-blue { background: rgba(46,95,163,0.15); color: #7BB3E0; }
+  .officer-card .av-navy { background: rgba(91,155,213,0.15); color: #8BBFE8; }
+  .officer-card .av-red { background: rgba(192,57,43,0.15); color: #E8746A; }
+  .progress-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20; }
+  .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s, transform 0.3s; }
+  .progress-dot.active { background: var(--orange); transform: scale(1.3); }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+    .modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+    .modal-box { background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%; display: flex; gap: 28px; align-items: flex-start; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.25s ease; }
+    .modal-overlay.active .modal-box { transform: scale(1); }
+    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; color: rgba(255,255,255,0.4); cursor: pointer; line-height: 1; padding: 4px; }
+    .modal-close:hover { color: #fff; }
+    .modal-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; flex-shrink: 0; }
+    .modal-info h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .modal-info .modal-role { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #FF8A4C; font-weight: 600; margin-bottom: 12px; }
+    .modal-info p { font-size: 14px; color: #B8CCE4; line-height: 1.7; }
+    .officer-avatar { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; margin: 0 auto 12px; }
+    .av-orange { background: #FFF0E8; color: var(--orange); }
+    .av-blue   { background: #E6F1FB; color: var(--blue); }
+    .av-navy   { background: var(--navy); color: var(--blue-lt); }
+    .av-red    { background: #FDECEA; color: var(--red); }
+    .officer-name { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+    .officer-role { font-size: 11px; color: var(--muted); }
+
+    /* REDES */
+    .socials-section { background: var(--navy); }
+    .socials-section .section-title { color: #fff; }
+    .socials-section .section-sub   { color: var(--blue-lt); }
+    .social-cards { display: flex; justify-content: center; gap: 20px; }
+    .social-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 32px 40px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius-lg); color: #fff; transition: background 0.2s, transform 0.15s; min-width: 180px; }
+    .social-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-3px); }
+    .social-card svg { width: 36px; height: 36px; fill: currentColor; }
+    .social-card.ig svg { color: var(--orange); }
+    .social-card.tk svg { color: var(--blue-lt); }
+    .social-card-name { font-size: 15px; font-weight: 600; }
+    .social-card-handle { font-size: 12px; color: var(--blue-lt); }
+
+    /* FOOTER */
+    footer { background: var(--navy-dark); padding: 28px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .footer-left p { color: #5B7FA8; font-size: 12px; }
+    .footer-right { display: flex; gap: 20px; }
+    .footer-right a { color: #5B7FA8; font-size: 12px; transition: color 0.2s; }
+    .footer-right a:hover { color: #fff; }
+    .back-to-top { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); color: var(--blue-lt); transition: background 0.2s, color 0.2s; }
+    .back-to-top:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 28px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .pillars { grid-template-columns: 1fr; }
+      .header-slide .section-title { font-size: 26px; }
+      .officer-card { height: 280px; }
+      .card-inner { height: 280px; }
+      .card-face { padding: 36px 24px; }
+      .officer-card .officer-name { font-size: 20px; }
+      .navbar-links { display: none; }
+      .navbar-socials { display: none; }
+      .navbar { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .hero { padding-top: 96px; }
+      .hero-stats { gap: 20px; }
+      .social-cards { flex-direction: column; align-items: center; }
+      .oficiales-bg-hex::before,
+      .oficiales-bg-hex::after { animation: none; display: none; }
+      .navbar { backdrop-filter: blur(6px); }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="hex-logo"><img src="shpe_logo.jpg" alt="Logo SHPE" /></div>
+      <div>
+        <div class="brand-name">SHPE Sagrado Corazón de Jesús</div>
+        <div class="brand-sub">Capítulo Estudiantil</div>
+      </div>
+    </div>
+    <ul class="navbar-links">
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#hacemos">Lo que hacemos</a></li>
+      <li><a href="#oficiales">Oficiales</a></li>
+      <li><a href="#redes">Contacto</a></li>
+    </ul>
+    <div class="navbar-socials">
+      <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener" class="nav-social">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308C2.497 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.446 2.497 5.713 2.225 7.079 2.163 8.345 2.105 8.725 2.093 12 2.093zm0-2.163c-3.259 0-3.667.014-4.947.072-1.628.074-3.078.448-4.235 1.604C1.661 2.772 1.287 4.222 1.213 5.85.155 7.13.141 7.538.141 12c0 4.462.014 4.87.072 6.15.074 1.628.448 3.078 1.604 4.235 1.157 1.156 2.607 1.53 4.235 1.604C7.333 23.986 7.741 24 12 24s4.667-.014 4.947-.072c1.628-.074 3.078-.448 4.235-1.604 1.156-1.157 1.53-2.607 1.604-4.235.058-1.28.072-1.688.072-6.15 0-4.462-.014-4.87-.072-6.15-.074-1.628-.448-3.078-1.604-4.235C19.025.52 17.575.146 15.947.072 14.667.014 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener" class="nav-social">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+        TikTok
+      </a>
+    </div>
+  </nav>
+
+  <div id="page-content">
+
+  <!-- HERO -->
+  <header class="hero" id="inicio">
+    <div class="container">
+      <div class="hero-tag hero-anim">Hispanos en STEM · Ponce, Puerto Rico</div>
+      <h1 class="hero-anim-d">Construyendo el futuro<br>de <em>Puerto Rico</em></h1>
+      <p class="hero-desc hero-anim-s">Somos el capítulo de SHPE del Colegio Sagrado Corazón de Jesús en Ponce. Unimos estudiantes apasionados por las ciencias, la tecnología, la ingeniería y las matemáticas para crecer juntos y dejar huella.</p>
+      <div class="hero-btns hero-anim-s">
+        <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener" class="btn btn-ig">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308C2.497 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.446 2.497 5.713 2.225 7.079 2.163 8.345 2.105 8.725 2.093 12 2.093zm0-2.163c-3.259 0-3.667.014-4.947.072-1.628.074-3.078.448-4.235 1.604C1.661 2.772 1.287 4.222 1.213 5.85.155 7.13.141 7.538.141 12c0 4.462.014 4.87.072 6.15.074 1.628.448 3.078 1.604 4.235 1.157 1.156 2.607 1.53 4.235 1.604C7.333 23.986 7.741 24 12 24s4.667-.014 4.947-.072c1.628-.074 3.078-.448 4.235-1.604 1.156-1.157 1.53-2.607 1.604-4.235.058-1.28.072-1.688.072-6.15 0-4.462-.014-4.87-.072-6.15-.074-1.628-.448-3.078-1.604-4.235C19.025.52 17.575.146 15.947.072 14.667.014 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          Síguenos en Instagram
+        </a>
+        <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener" class="btn btn-tk">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+          Síguenos en TikTok
+        </a>
+      </div>
+      <div class="hero-stats hero-anim-b">
+        <div><div class="stat-val">50+</div><div class="stat-lbl">Miembros activos</div></div>
+        <div><div class="stat-val">20+</div><div class="stat-lbl">Eventos al año</div></div>
+        <div><div class="stat-val">Ponce</div><div class="stat-lbl">Puerto Rico</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- QUIENES SOMOS -->
+  <section class="section" id="nosotros">
+    <div class="container">
+      <div class="section-eyebrow reveal">Quiénes somos</div>
+      <div class="section-title reveal">Más que un club — una comunidad</div>
+      <div class="section-sub reveal">Conoce nuestra misión y lo que nos mueve</div>
+      <div class="about-grid">
+        <div class="about-card reveal reveal-delay-1">
+          <h3>Nuestra misión</h3>
+          <p>Empoderar a jóvenes hispanos del Colegio Sagrado Corazón de Jesús a descubrir y desarrollar su potencial en las áreas de STEM, preparándolos para el futuro con herramientas, mentoría y comunidad.</p>
+        </div>
+        <div class="about-card reveal reveal-delay-2">
+          <h3>Nuestra visión</h3>
+          <p>Un Puerto Rico donde los jóvenes hispanos lideran la innovación, la ciencia y la ingeniería a nivel mundial — con orgullo y confianza.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- LO QUE HACEMOS -->
+  <section class="section pillars-bg" id="hacemos">
+    <div class="container">
+      <div class="section-eyebrow reveal">Lo que hacemos</div>
+      <div class="section-title reveal">Tres pilares que nos guían</div>
+      <div class="section-sub reveal">Actividades pensadas para tu crecimiento</div>
+      <div class="pillars">
+        <div class="pillar reveal reveal-delay-1">
+          <div class="pillar-icon orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3>Desarrollo profesional</h3>
+          <p>Talleres, charlas con ingenieros y científicos, y preparación para tu futuro universitario y laboral en STEM.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-2">
+          <div class="pillar-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Mentoría</h3>
+          <p>Conexión con estudiantes universitarios y profesionales hispanos que han recorrido el camino antes que tú.</p>
+        </div>
+        <div class="pillar reveal reveal-delay-3">
+          <div class="pillar-icon red">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          </div>
+          <h3>Divulgación STEM</h3>
+          <p>Actividades en la comunidad para inspirar a más jóvenes a enamorarse de la ciencia y la tecnología.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFICIALES - Fullscreen scroll takeover -->
+  <section id="oficiales">
+    <div class="oficiales-sticky">
+      <div class="oficiales-bg-hex"></div>
+      <div class="v-track">
+        <div class="v-slide header-slide">
+          <div>
+            <div class="section-eyebrow">Liderazgo</div>
+            <div class="section-title">Nuestra directiva</div>
+            <div class="section-sub">El equipo detrás del capítulo</div>
+            <div class="scroll-hint">Desliza para conocerlos</div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>Lo importante es no dejar de hacerse preguntas. La curiosidad tiene su propia razón de existir.</blockquote>
+            <cite>— Albert Einstein</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Elena es una apasionada maestra de ciencias que inspira a sus estudiantes a descubrir el mundo a través de la curiosidad y el método científico. Su compromiso con la educación y el servicio a los jóvenes la convierte en un pilar fundamental del capítulo." data-avatar-class="av-navy" data-initials="EA">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-navy">EA</div>
+                <div class="officer-name">Elena Albertorio</div>
+                <div class="officer-role">Moderadora</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Elena es una apasionada maestra de ciencias que inspira a sus estudiantes a descubrir el mundo a través de la curiosidad y el método científico. Su compromiso con la educación y el servicio a los jóvenes la convierte en un pilar fundamental del capítulo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>En algún lugar, algo increíble espera ser descubierto.</blockquote>
+            <cite>— Carl Sagan</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-orange">AC</div>
+                <div class="officer-name">Alexander Colón</div>
+                <div class="officer-role">Presidente</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>La única forma de hacer un gran trabajo es amar lo que haces.</blockquote>
+            <cite>— Steve Jobs</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado." data-avatar-class="av-blue" data-initials="GL">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-blue">GL</div>
+                <div class="officer-name">Gabriela Landers</div>
+                <div class="officer-role">Vicepresidenta</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>No hay que temer a nada en la vida, solo hay que comprenderlo.</blockquote>
+            <cite>— Marie Curie</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden." data-avatar-class="av-navy" data-initials="DM">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-navy">DM</div>
+                <div class="officer-name">Derek Martell</div>
+                <div class="officer-role">Secretario</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>La imaginación es más importante que el conocimiento.</blockquote>
+            <cite>— Albert Einstein</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo." data-avatar-class="av-red" data-initials="JS">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-red">JS</div>
+                <div class="officer-name">Joredis Sierra</div>
+                <div class="officer-role">Tesorera</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>La mejor forma de predecir el futuro es inventarlo.</blockquote>
+            <cite>— Alan Kay</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros." data-avatar-class="av-blue" data-initials="FD">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-blue">FD</div>
+                <div class="officer-name">Fabiola Delgado</div>
+                <div class="officer-role">Historiadora</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>Solo podemos ver poco hacia adelante, pero podemos ver mucho que necesita ser hecho.</blockquote>
+            <cite>— Alan Turing</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad." data-avatar-class="av-orange" data-initials="MS">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-orange">MS</div>
+                <div class="officer-name">Miranda Santiago</div>
+                <div class="officer-role">Publicista</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <span class="card-hex"></span>
+                <p>Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="progress-dots" id="progressDots"></div>
+    </div>
+  </section>
+
+  <!-- REDES SOCIALES -->
+  <section class="section socials-section" id="redes">
+    <div class="container" style="text-align:center;">
+      <div class="section-eyebrow reveal" style="color:var(--blue-lt);">Encuéntranos</div>
+      <div class="section-title reveal">Síguenos en redes sociales</div>
+      <div class="section-sub reveal">Mantente al día con nuestras actividades, logros y contenido STEM</div>
+      <div class="social-cards">
+        <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener" class="social-card ig reveal reveal-delay-1">
+          <svg viewBox="0 0 24 24" aria-label="Instagram"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308C2.497 19.466 2.225 18.199 2.163 16.833 2.105 15.567 2.093 15.187 2.093 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608C4.446 2.497 5.713 2.225 7.079 2.163 8.345 2.105 8.725 2.093 12 2.093zm0-2.163c-3.259 0-3.667.014-4.947.072-1.628.074-3.078.448-4.235 1.604C1.661 2.772 1.287 4.222 1.213 5.85.155 7.13.141 7.538.141 12c0 4.462.014 4.87.072 6.15.074 1.628.448 3.078 1.604 4.235 1.157 1.156 2.607 1.53 4.235 1.604C7.333 23.986 7.741 24 12 24s4.667-.014 4.947-.072c1.628-.074 3.078-.448 4.235-1.604 1.156-1.157 1.53-2.607 1.604-4.235.058-1.28.072-1.688.072-6.15 0-4.462-.014-4.87-.072-6.15-.074-1.628-.448-3.078-1.604-4.235C19.025.52 17.575.146 15.947.072 14.667.014 14.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          <span class="social-card-name">Instagram</span>
+          <span class="social-card-handle">@shpe_cscj</span>
+        </a>
+        <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener" class="social-card tk reveal reveal-delay-2">
+          <svg viewBox="0 0 24 24" aria-label="TikTok"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.77a4.85 4.85 0 0 1-1.01-.08z"/></svg>
+          <span class="social-card-name">TikTok</span>
+          <span class="social-card-handle">@shpejr.sagradoponce</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  </div> <!-- end page-content -->
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="officerModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <div class="modal-info">
+        <h3 id="modalName"></h3>
+        <div class="modal-role" id="modalRole"></div>
+        <p id="modalBio"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      <p>© 2026 SHPE · Colegio Sagrado Corazón de Jesús · Ponce, Puerto Rico</p>
+    </div>
+    <div class="footer-right">
+      <a href="https://www.instagram.com/shpe_cscj/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@shpejr.sagradoponce" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://shpe.org" target="_blank" rel="noopener">shpe.org</a>
+      <a href="#" class="back-to-top" aria-label="Volver al inicio">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+      </a>
+    </div>
+  </footer>
+
+<script>
+  history.scrollRestoration = 'manual';
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Modal
+  const modal = document.getElementById('officerModal');
+  const modalAvatar = document.getElementById('modalAvatar');
+  const modalName = document.getElementById('modalName');
+  const modalRole = document.getElementById('modalRole');
+  const modalBio = document.getElementById('modalBio');
+
+  var typeInterval = null;
+
+  function clearType() {
+    if (typeInterval) { clearInterval(typeInterval); typeInterval = null; }
+  }
+
+  function typeBio(text, el, speed) {
+    clearType();
+    el.textContent = '';
+    var i = 0;
+    typeInterval = setInterval(function() {
+      el.textContent += text.charAt(i);
+      i++;
+      if (i >= text.length) { clearInterval(typeInterval); typeInterval = null; }
+    }, speed || 25);
+  }
+
+  // Full-screen officer scroll
+  (function() {
+    var section = document.getElementById('oficiales');
+    var track = section.querySelector('.v-track');
+    var slides = section.querySelectorAll('.v-slide');
+    var dotsContainer = document.getElementById('progressDots');
+    var officerCards = section.querySelectorAll('.officer-card');
+    var numSlides = slides.length;
+    var win = window;
+    var h, ticking = false;
+
+    // Build progress dots
+    for (var i = 0; i < numSlides; i++) {
+      var dot = document.createElement('div');
+      dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+      dotsContainer.appendChild(dot);
+    }
+    var dots = dotsContainer.querySelectorAll('.progress-dot');
+
+    function size() {
+      h = win.innerHeight;
+      section.style.height = (numSlides * h) + 'px';
+    }
+
+    function update() {
+      var rect = section.getBoundingClientRect();
+      var total = section.offsetHeight - h;
+      if (total <= 0) return;
+      var progress = Math.max(0, Math.min(1, -rect.top / total));
+      var trackOffset = progress * (numSlides - 1) * h;
+      track.style.transform = 'translateY(' + (-trackOffset) + 'px)';
+
+      // Per-slide effects — only update active + neighbors
+      var activeIdx = Math.round(progress * (numSlides - 1));
+      for (var i = 0; i < slides.length; i++) {
+        if (i < activeIdx - 1 || i > activeIdx + 1) {
+          dots[i].className = 'progress-dot';
+          continue;
+        }
+        var slideCenter = (i * h) - trackOffset + h / 2;
+        var viewCenter = h / 2;
+        var dist = Math.abs(slideCenter - viewCenter) / (h * 0.7);
+        var closeness = 1 - Math.min(1, dist);
+        slides[i].style.opacity = Math.max(0.08, closeness);
+        slides[i].style.transform = 'scale(' + (0.82 + closeness * 0.18) + ')';
+        dots[i].className = 'progress-dot' + (i === activeIdx ? ' active' : '');
+      }
+    }
+
+    function rafUpdate() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function() { update(); ticking = false; });
+      }
+    }
+
+    size();
+    update();
+    win.addEventListener('scroll', rafUpdate, { passive: true });
+    win.addEventListener('resize', function() { size(); rafUpdate(); });
+
+    // Flip card on click with typewriter effect
+    officerCards.forEach(function(card) {
+      var typingInterval = null;
+      card.addEventListener('click', function() {
+        var flipped = this.classList.toggle('flipped');
+        if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
+        if (flipped) {
+          var bio = this.dataset.bio;
+          var p = this.querySelector('.card-back p');
+          p.textContent = '';
+          var i = 0;
+          typingInterval = setInterval(function() {
+            p.textContent += bio.charAt(i);
+            i++;
+            if (i >= bio.length) { clearInterval(typingInterval); typingInterval = null; }
+          }, 18);
+        }
+      });
+    });
+  })();
+
+  document.getElementById('modalClose').addEventListener('click', () => {
+    clearType();
+    modal.classList.remove('active');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) { clearType(); modal.classList.remove('active'); }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { clearType(); modal.classList.remove('active'); }
+  });
+
+  document.querySelector('.back-to-top').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+</script>
+</body>
+</html>
+    .hero .container { position: relative; z-index: 1; max-width: 720px; }
+    .hero-tag { display: inline-block; background: var(--orange); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: var(--radius-sm); margin-bottom: 20px; }
+    .hero h1 { font-size: 42px; font-weight: 600; color: #fff; line-height: 1.15; margin-bottom: 16px; }
+    .hero h1 em { font-style: normal; color: var(--blue-lt); }
+    .hero-desc { font-size: 16px; color: #B8CCE4; line-height: 1.7; max-width: 560px; margin-bottom: 32px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; transition: opacity 0.2s, transform 0.15s; }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-ig { background: var(--orange); color: #fff; }
+    .btn-tk { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .hero-stats { display: flex; gap: 36px; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); }
+    .stat-val { font-size: 26px; font-weight: 600; color: #fff; }
+    .stat-lbl { font-size: 11px; color: var(--blue-lt); margin-top: 2px; }
+
+    /* QUIENES SOMOS */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .about-card { background: var(--off-white); border-radius: var(--radius-md); padding: 28px; border-left: 4px solid var(--orange); }
+    .about-card h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+    .about-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* PILARES */
+    .pillars-bg { background: var(--off-white); }
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .pillar { background: #fff; border-radius: var(--radius-md); padding: 28px 24px; border: 1px solid var(--border); }
+    .pillar-icon { width: 44px; height: 44px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .pillar-icon svg { width: 22px; height: 22px; }
+    .pillar-icon.orange { background: #FFF0E8; color: var(--orange); }
+    .pillar-icon.blue   { background: #E6F1FB; color: var(--blue); }
+    .pillar-icon.red    { background: #FDECEA; color: var(--red); }
+    .pillar h3 { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+    .pillar p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    /* EVENTOS */
+    .events-list { display: flex; flex-direction: column; gap: 12px; }
+    .event-card { display: flex; align-items: center; gap: 20px; padding: 18px 20px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); transition: box-shadow 0.2s; }
+    .event-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .event-date { text-align: center; min-width: 44px; }
+    .event-day { font-size: 22px; font-weight: 600; color: var(--orange); line-height: 1; }
+    .event-month { font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .event-sep { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
+    .event-info h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+    .event-info p { font-size: 12px; color: var(--muted); }
+    .event-badge { margin-left: auto; font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+    .badge-pro  { background: #E6F1FB; color: #185FA5; }
+    .badge-com  { background: #FFF0E8; color: var(--orange); }
+    .badge-stem { background: #EAF3DE; color: #3B6D11; }
+
+  /* OFICIALES - Fullscreen scroll takeover */
+  #oficiales { position: relative; background: var(--navy-dark); overflow: visible; padding: 0; }
+  .oficiales-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 10; }
+  .oficiales-bg-hex { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0; overflow: hidden; }
+  .oficiales-bg-hex::before { content: ''; width: 70vmin; height: 70vmin; background: var(--blue); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.035; animation: hex-rotate 80s linear infinite; }
+  .oficiales-bg-hex::after { content: ''; position: absolute; width: 40vmin; height: 40vmin; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.025; animation: hex-rotate 60s linear infinite reverse; }
+  @keyframes hex-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .v-track { display: flex; flex-direction: column; will-change: transform; }
+  .v-slide { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px; opacity: 0.08; transform: scale(0.82); will-change: transform, opacity; }
+  .header-slide { text-align: center; }
+  .header-slide .section-eyebrow { font-size: 13px; }
+  .header-slide .section-title { font-size: 36px; color: #fff; }
+  .header-slide .section-sub { font-size: 16px; margin-bottom: 0; color: var(--blue-lt); z-index: 1; position: relative; }
+  .phrase-slide { text-align: center; padding: 60px; }
+  .phrase-slide blockquote { font-size: clamp(20px, 4vw, 36px); font-weight: 500; color: #fff; line-height: 1.4; max-width: 600px; margin: 0 auto 16px; }
+  .phrase-slide cite { font-size: 13px; color: var(--blue-lt); font-style: normal; letter-spacing: 0.5px; }
+  .scroll-hint { margin-top: 24px; font-size: 12px; color: var(--blue-lt); letter-spacing: 1px; text-transform: uppercase; animation: pulse-hint 2s ease-in-out infinite; }
+  @keyframes pulse-hint { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+  .officer-card { position: relative; z-index: 1; width: 100%; max-width: 480px; height: 340px; perspective: 1000px; cursor: pointer; }
+  .card-inner { position: relative; width: 100%; height: 340px; transition: transform 0.6s ease; transform-style: preserve-3d; }
+  .officer-card.flipped .card-inner { transform: rotateY(180deg); }
+  .card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 24px; padding: 48px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
   .card-back { transform: rotateY(180deg); border: 2px solid rgba(232,80,10,0.2); overflow: hidden; }
   .card-back::before { content: ''; position: absolute; width: 100px; height: 100px; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.05; top: -30px; right: -30px; animation: hex-rotate 25s linear infinite; }
   .card-back::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: border-pulse 2.5s ease-in-out infinite; }
