@@ -8,10 +8,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --navy:      #1A2B5F;
+      --navy-dark: #0F1B3D;
+      --orange:    #E8500A;
+      --blue:      #2E5FA3;
+      --blue-lt:   #5B9BD5;
+      --red:       #C0392B;
+      --off-white: #F5F7FA;
+      --muted:     #6B7280;
+      --border:    #E5E7EB;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; background: var(--navy-dark); }
     body { font-family: 'Inter', sans-serif; font-size: 16px; color: #1a1a1a; background: var(--navy-dark); line-height: 1.6; }
-    #page-content { background: #fff; }
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
 
@@ -29,35 +42,19 @@
     .hero-anim-d { animation: fadeInUp 0.8s ease 0.2s both; }
     .hero-anim-s { animation: fadeInUp 0.8s ease 0.4s both; }
     .hero-anim-b { animation: fadeInUp 0.8s ease 0.6s both; }
-    .nav-blur { backdrop-filter: blur(8px); transition: background 0.3s; }
-
-    :root {
-      --navy:      #1A2B5F;
-      --navy-dark: #0F1B3D;
-      --orange:    #E8500A;
-      --blue:      #2E5FA3;
-      --blue-lt:   #5B9BD5;
-      --red:       #C0392B;
-      --off-white: #F5F7FA;
-      --muted:     #6B7280;
-      --border:    #E5E7EB;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-    }
 
     .container { max-width: 1060px; margin: 0 auto; padding: 0 24px; }
-    .section { padding: 72px 0; }
+    .section { padding: 72px 0; background: #fff; }
     .section-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; }
     .section-title { font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.25; }
     .section-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; }
     .divider { border: none; border-top: 1px solid var(--border); }
 
     /* NAVBAR */
-    .navbar { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 1px 8px rgba(0,0,0,0.18); }
+    .navbar { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 100; background: rgba(15,27,61,0.88); backdrop-filter: blur(14px); padding: 0 24px; height: 56px; border-radius: 14px; max-width: 1060px; width: calc(100% - 28px); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 32px rgba(0,0,0,0.25); }
     .navbar-brand { display: flex; align-items: center; gap: 12px; }
-    .hex-logo { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .hex-logo img { width: 44px; height: 44px; object-fit: contain; }
+    .hex-logo { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(255,255,255,0.35)); }
+    .hex-logo img { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; }
     .brand-name { color: #fff; font-size: 14px; font-weight: 600; }
     .brand-sub { color: var(--blue-lt); font-size: 10px; }
     .navbar-links { display: flex; gap: 24px; list-style: none; }
@@ -120,32 +117,56 @@
     .badge-com  { background: #FFF0E8; color: var(--orange); }
     .badge-stem { background: #EAF3DE; color: #3B6D11; }
 
-    /* OFICIALES */
-    .v-carousel { width: 100%; height: 520px; overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
-    .v-carousel::-webkit-scrollbar { display: none; }
-    .v-track { display: flex; flex-direction: column; align-items: center; gap: 40px; }
-    .v-card { flex-shrink: 0; width: 100%; max-width: 420px; text-align: center; padding: 48px 32px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: 20px; box-shadow: 0 12px 40px rgba(26,43,95,0.2), 0 4px 12px rgba(0,0,0,0.1); transform-origin: center center; will-change: transform, opacity; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: box-shadow 0.4s ease, filter 0.25s ease; position: relative; }
-    .v-card:hover { box-shadow: 0 16px 48px rgba(26,43,95,0.3), 0 12px 28px rgba(0,0,0,0.2); }
-    .v-card:active { filter: brightness(0.93); }
-    .v-card .officer-avatar { width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; margin: 0 auto 20px; }
-    .v-card .officer-name { font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 6px; }
-    .v-card .officer-role { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: #FF8A4C; }
-    .v-card .av-orange { background: rgba(232,80,10,0.15); color: #FF8A4C; }
-    .v-card .av-blue { background: rgba(46,95,163,0.15); color: #7BB3E0; }
-    .v-card .av-navy { background: rgba(91,155,213,0.15); color: #8BBFE8; }
-    .v-card .av-red { background: rgba(192,57,43,0.15); color: #E8746A; }
+  /* OFICIALES - Fullscreen scroll takeover */
+  #oficiales { position: relative; background: var(--navy-dark); overflow: visible; padding: 0; }
+  .oficiales-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; z-index: 10; }
+  .oficiales-bg-hex { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 0; overflow: hidden; }
+  .oficiales-bg-hex::before { content: ''; width: 70vmin; height: 70vmin; background: var(--blue); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.035; animation: hex-rotate 80s linear infinite; }
+  .oficiales-bg-hex::after { content: ''; position: absolute; width: 40vmin; height: 40vmin; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.025; animation: hex-rotate 60s linear infinite reverse; }
+  @keyframes hex-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .v-track { display: flex; flex-direction: column; will-change: transform; }
+  .v-slide { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px; }
+  .header-slide { text-align: center; }
+  .header-slide .section-eyebrow { font-size: 13px; }
+  .header-slide .section-title { font-size: 36px; color: #fff; }
+  .header-slide .section-sub { font-size: 16px; margin-bottom: 0; color: var(--blue-lt); z-index: 1; position: relative; }
+  .phrase-slide { text-align: center; padding: 60px; }
+  .phrase-slide blockquote { font-size: clamp(20px, 4vw, 36px); font-weight: 500; color: #fff; line-height: 1.4; max-width: 600px; margin: 0 auto 16px; }
+  .phrase-slide cite { font-size: 13px; color: var(--blue-lt); font-style: normal; letter-spacing: 0.5px; }
+  .scroll-hint { margin-top: 24px; font-size: 12px; color: var(--blue-lt); letter-spacing: 1px; text-transform: uppercase; animation: pulse-hint 2s ease-in-out infinite; }
+  @keyframes pulse-hint { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+  .officer-card { position: relative; z-index: 1; width: 100%; max-width: 480px; height: 340px; perspective: 1000px; cursor: pointer; }
+  .card-inner { position: relative; width: 100%; height: 340px; transition: transform 0.6s ease; transform-style: preserve-3d; }
+  .officer-card.flipped .card-inner { transform: rotateY(180deg); }
+  .card-face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 24px; padding: 48px 36px; background: linear-gradient(145deg, #1A2B5F, #243B7A); box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 8px 20px rgba(0,0,0,0.15); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+  .card-back { transform: rotateY(180deg); border: 2px solid rgba(232,80,10,0.2); overflow: hidden; }
+  .card-back::before { content: ''; position: absolute; width: 100px; height: 100px; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.05; top: -30px; right: -30px; animation: hex-rotate 25s linear infinite; }
+  .card-back::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--orange), transparent); animation: border-pulse 2.5s ease-in-out infinite; }
+  @keyframes border-pulse { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.9; } }
+  .card-back p { font-size: 15px; color: #B8CCE4; line-height: 1.7; max-width: 360px; margin: 0 auto; }
+  .card-hint { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 16px; letter-spacing: 0.5px; }
+  .officer-card .officer-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; margin: 0 auto 24px; }
+  .officer-card .officer-name { font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+  .officer-card .officer-role { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.8px; color: #FF8A4C; margin-bottom: 0; }
+  .officer-card .av-orange { background: rgba(232,80,10,0.15); color: #FF8A4C; }
+  .officer-card .av-blue { background: rgba(46,95,163,0.15); color: #7BB3E0; }
+  .officer-card .av-navy { background: rgba(91,155,213,0.15); color: #8BBFE8; }
+  .officer-card .av-red { background: rgba(192,57,43,0.15); color: #E8746A; }
+  .progress-dots { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20; }
+  .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: background 0.3s, transform 0.3s; }
+  .progress-dot.active { background: var(--orange); transform: scale(1.3); }
 
     /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, visibility 0.3s ease; }
     .modal-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
-    .modal-box { background: #fff; border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%; display: flex; gap: 28px; align-items: flex-start; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,0.18); transform: scale(0.9); transition: transform 0.25s ease; }
+    .modal-box { background: linear-gradient(145deg, #1A2B5F, #243B7A); border-radius: var(--radius-lg); padding: 40px; max-width: 560px; width: 90%; display: flex; gap: 28px; align-items: flex-start; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,0.3); transform: scale(0.9); transition: transform 0.25s ease; }
     .modal-overlay.active .modal-box { transform: scale(1); }
-    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; color: var(--muted); cursor: pointer; line-height: 1; padding: 4px; }
-    .modal-close:hover { color: #1a1a1a; }
+    .modal-close { position: absolute; top: 12px; right: 16px; background: none; border: none; font-size: 22px; color: rgba(255,255,255,0.4); cursor: pointer; line-height: 1; padding: 4px; }
+    .modal-close:hover { color: #fff; }
     .modal-avatar { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 600; flex-shrink: 0; }
-    .modal-info h3 { font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
-    .modal-info .modal-role { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--orange); font-weight: 600; margin-bottom: 12px; }
-    .modal-info p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .modal-info h3 { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+    .modal-info .modal-role { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #FF8A4C; font-weight: 600; margin-bottom: 12px; }
+    .modal-info p { font-size: 14px; color: #B8CCE4; line-height: 1.7; }
     .officer-avatar { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; margin: 0 auto 12px; }
     .av-orange { background: #FFF0E8; color: var(--orange); }
     .av-blue   { background: #E6F1FB; color: var(--blue); }
@@ -179,9 +200,11 @@
       .hero h1 { font-size: 28px; }
       .about-grid { grid-template-columns: 1fr; }
       .pillars { grid-template-columns: 1fr; }
-      .v-carousel { height: 420px; }
-      .v-card { box-shadow: 0 4px 16px rgba(26,43,95,0.12), 0 4px 12px rgba(0,0,0,0.08); }
-      .v-card:hover { box-shadow: 0 6px 20px rgba(26,43,95,0.18), 0 8px 20px rgba(0,0,0,0.12); }
+      .header-slide .section-title { font-size: 26px; }
+      .officer-card { height: 280px; }
+      .card-inner { height: 280px; }
+      .card-face { padding: 36px 24px; }
+      .officer-card .officer-name { font-size: 20px; }
       .navbar-links { display: none; }
       .navbar-socials { display: none; }
       .navbar { border-bottom: 1px solid rgba(255,255,255,0.08); }
@@ -192,6 +215,7 @@
   </style>
 </head>
 <body>
+
 
   <!-- NAVBAR -->
   <nav class="navbar">
@@ -299,51 +323,168 @@
     </div>
   </section>
 
-  <!-- OFICIALES -->
-  <section class="section" id="oficiales">
-    <div class="container">
-      <div class="section-eyebrow reveal">Liderazgo</div>
-      <div class="section-title reveal">Nuestra directiva</div>
-      <div class="section-sub reveal">El equipo detrás del capítulo</div>
-      <div class="v-carousel reveal">
-        <div class="v-track">
-          <div class="v-card officer-card" data-bio="Placeholder — bio próximamente." data-avatar-class="av-navy" data-initials="EA">
-            <div class="officer-avatar av-navy">EA</div>
-            <div class="officer-name">Elena Albertorio</div>
-            <div class="officer-role">Moderadora</div>
+  <!-- OFICIALES - Fullscreen scroll takeover -->
+  <section id="oficiales">
+    <div class="oficiales-sticky">
+      <div class="oficiales-bg-hex"></div>
+      <div class="v-track">
+        <div class="v-slide header-slide">
+          <div>
+            <div class="section-eyebrow">Liderazgo</div>
+            <div class="section-title">Nuestra directiva</div>
+            <div class="section-sub">El equipo detrás del capítulo</div>
+            <div class="scroll-hint">Desliza para conocerlos</div>
           </div>
-          <div class="v-card officer-card" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
-            <div class="officer-avatar av-orange">AC</div>
-            <div class="officer-name">Alexander Colón</div>
-            <div class="officer-role">Presidente</div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>Lo importante es no dejar de hacerse preguntas. La curiosidad tiene su propia razón de existir.</blockquote>
+            <cite>— Albert Einstein</cite>
           </div>
-          <div class="v-card officer-card" data-bio="Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado." data-avatar-class="av-blue" data-initials="GL">
-            <div class="officer-avatar av-blue">GL</div>
-            <div class="officer-name">Gabriela Landers</div>
-            <div class="officer-role">Vicepresidenta</div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Placeholder — bio próximamente." data-avatar-class="av-navy" data-initials="EA">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-navy">EA</div>
+                <div class="officer-name">Elena Albertorio</div>
+                <div class="officer-role">Moderadora</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Placeholder — bio próximamente.</p>
+              </div>
+            </div>
           </div>
-          <div class="v-card officer-card" data-bio="Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden." data-avatar-class="av-navy" data-initials="DM">
-            <div class="officer-avatar av-navy">DM</div>
-            <div class="officer-name">Derek Martell</div>
-            <div class="officer-role">Secretario</div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>En algún lugar, algo increíble espera ser descubierto.</blockquote>
+            <cite>— Carl Sagan</cite>
           </div>
-          <div class="v-card officer-card" data-bio="Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo." data-avatar-class="av-red" data-initials="JS">
-            <div class="officer-avatar av-red">JS</div>
-            <div class="officer-name">Joredis Sierra</div>
-            <div class="officer-role">Tesorera</div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración." data-avatar-class="av-orange" data-initials="AC">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-orange">AC</div>
+                <div class="officer-name">Alexander Colón</div>
+                <div class="officer-role">Presidente</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Alexander es el presidente del capítulo. Le apasiona liderar iniciativas que inspiran a jóvenes a seguir carreras en STEM, fomentando un ambiente de crecimiento y colaboración.</p>
+              </div>
+            </div>
           </div>
-          <div class="v-card officer-card" data-bio="Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros." data-avatar-class="av-blue" data-initials="FD">
-            <div class="officer-avatar av-blue">FD</div>
-            <div class="officer-name">Fabiola Delgado</div>
-            <div class="officer-role">Historiadora</div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>La única forma de hacer un gran trabajo es amar lo que haces.</blockquote>
+            <cite>— Steve Jobs</cite>
           </div>
-          <div class="v-card officer-card" data-bio="Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad." data-avatar-class="av-orange" data-initials="MS">
-            <div class="officer-avatar av-orange">MS</div>
-            <div class="officer-name">Miranda Santiago</div>
-            <div class="officer-role">Publicista</div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado." data-avatar-class="av-blue" data-initials="GL">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-blue">GL</div>
+                <div class="officer-name">Gabriela Landers</div>
+                <div class="officer-role">Vicepresidenta</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Gabriela sirve como vicepresidenta, coordinando las operaciones del capítulo y apoyando en la planificación de eventos y actividades. Su liderazgo mantiene al equipo organizado y enfocado.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>No hay que temer a nada en la vida, solo hay que comprenderlo.</blockquote>
+            <cite>— Marie Curie</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden." data-avatar-class="av-navy" data-initials="DM">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-navy">DM</div>
+                <div class="officer-name">Derek Martell</div>
+                <div class="officer-role">Secretario</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Derek es el secretario del capítulo, encargado de la documentación, actas y comunicación oficial del equipo. Su atención al detalle mantiene todo en orden.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>La imaginación es más importante que el conocimiento.</blockquote>
+            <cite>— Albert Einstein</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo." data-avatar-class="av-red" data-initials="JS">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-red">JS</div>
+                <div class="officer-name">Joredis Sierra</div>
+                <div class="officer-role">Tesorera</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Joredis es la tesorera del capítulo, gestionando los recursos financieros para hacer realidad cada proyecto y actividad. Su responsabilidad asegura la estabilidad del capítulo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>La mejor forma de predecir el futuro es inventarlo.</blockquote>
+            <cite>— Alan Kay</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros." data-avatar-class="av-blue" data-initials="FD">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-blue">FD</div>
+                <div class="officer-name">Fabiola Delgado</div>
+                <div class="officer-role">Historiadora</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Fabiola es la historiadora del capítulo, documentando cada momento importante y preservando la memoria del equipo para las futuras generaciones de miembros.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="v-slide phrase-slide">
+          <div>
+            <blockquote>Solo podemos ver poco hacia adelante, pero podemos ver mucho que necesita ser hecho.</blockquote>
+            <cite>— Alan Turing</cite>
+          </div>
+        </div>
+        <div class="v-slide">
+          <div class="officer-card" data-bio="Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad." data-avatar-class="av-orange" data-initials="MS">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="officer-avatar av-orange">MS</div>
+                <div class="officer-name">Miranda Santiago</div>
+                <div class="officer-role">Publicista</div>
+                <div class="card-hint">Toca para ver bio</div>
+              </div>
+              <div class="card-face card-back">
+                <p>Miranda es la publicista del capítulo, liderando la imagen y difusión de nuestras actividades en redes sociales. Su creatividad conecta al capítulo con la comunidad.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="progress-dots" id="progressDots"></div>
     </div>
   </section>
 
@@ -396,6 +537,8 @@
   </footer>
 
 <script>
+  history.scrollRestoration = 'manual';
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -405,17 +548,6 @@
   }, { threshold: 0.15 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  window.addEventListener('scroll', () => {
-    const nav = document.querySelector('.navbar');
-    if (window.scrollY > 60) {
-      nav.style.background = 'rgba(26,43,95,0.92)';
-      nav.classList.add('nav-blur');
-    } else {
-      nav.style.background = 'var(--navy)';
-      nav.classList.remove('nav-blur');
-    }
-  }, { passive: true });
 
   // Modal
   const modal = document.getElementById('officerModal');
@@ -441,103 +573,83 @@
     }, speed || 25);
   }
 
-  // Vertical carousel
+  // Full-screen officer scroll
   (function() {
-    var carousel = document.querySelector('.v-carousel');
-    if (!carousel) return;
-    var track = document.querySelector('.v-track');
-    var cards = track.querySelectorAll('.v-card');
-    var snapRaf = null, snapTimer = null, isSnapping = false;
+    var section = document.getElementById('oficiales');
+    var track = section.querySelector('.v-track');
+    var slides = section.querySelectorAll('.v-slide');
+    var dotsContainer = document.getElementById('progressDots');
+    var officerCards = section.querySelectorAll('.officer-card');
+    var numSlides = slides.length;
+    var win = window;
+    var h, ticking = false;
 
-    function measure() {
-      var ch = carousel.offsetHeight;
-      var ratio = window.innerWidth < 600 ? 0.55 : 0.68;
-      var cardH = Math.min(340, ch * ratio);
-      for (var i = 0; i < cards.length; i++) {
-        cards[i].style.minHeight = cardH + 'px';
+    // Build progress dots
+    for (var i = 0; i < numSlides; i++) {
+      var dot = document.createElement('div');
+      dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+      dotsContainer.appendChild(dot);
+    }
+    var dots = dotsContainer.querySelectorAll('.progress-dot');
+
+    function size() {
+      h = win.innerHeight;
+      section.style.height = (numSlides * h) + 'px';
+    }
+
+    function update() {
+      var rect = section.getBoundingClientRect();
+      var total = section.offsetHeight - h;
+      if (total <= 0) return;
+      var progress = Math.max(0, Math.min(1, -rect.top / total));
+      var trackOffset = progress * (numSlides - 1) * h;
+      track.style.transform = 'translateY(' + (-trackOffset) + 'px)';
+
+      // Per-slide effects
+      var activeIdx = Math.round(progress * (numSlides - 1));
+      for (var i = 0; i < slides.length; i++) {
+        var slideCenter = (i * h) - trackOffset + h / 2;
+        var viewCenter = h / 2;
+        var dist = Math.abs(slideCenter - viewCenter) / (h * 0.7);
+        var closeness = 1 - Math.min(1, dist);
+        slides[i].style.opacity = Math.max(0.08, closeness);
+        slides[i].style.transform = 'scale(' + (0.82 + closeness * 0.18) + ')';
+        dots[i].className = 'progress-dot' + (i === activeIdx ? ' active' : '');
+
       }
-      var pad = Math.max(0, (ch - cardH) / 2);
-      track.style.paddingTop = pad + 'px';
-      track.style.paddingBottom = pad + 'px';
     }
 
-    function cancelSnap() {
-      isSnapping = false;
-      if (snapRaf) { cancelAnimationFrame(snapRaf); snapRaf = null; }
-      clearTimeout(snapTimer);
-    }
-
-    function render() {
-      var ch = carousel.offsetHeight;
-      var scroll = carousel.scrollTop;
-      var cy = ch / 2;
-      for (var i = 0; i < cards.length; i++) {
-        var cardCenter = cards[i].offsetTop + cards[i].offsetHeight / 2;
-        var dist = Math.abs(cardCenter - scroll - cy);
-        var ratio = 1 - Math.min(1, dist / (ch * 0.9));
-        cards[i].style.transform = 'scale(' + (0.78 + ratio * 0.22) + ')';
-        cards[i].style.zIndex = Math.round(ratio * 10);
-        var shadowSm = window.innerWidth < 600 ? '0 4px 12px rgba(0,0,0,0.08)' : '0 8px 24px rgba(0,0,0,0.15)';
-        var shadowLg = window.innerWidth < 600 ? '0 8px 24px rgba(0,0,0,0.2)' : '0 20px 60px rgba(0,0,0,0.35)';
-        cards[i].style.boxShadow = ratio > 0.7 ? shadowLg : shadowSm;
+    function rafUpdate() {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function() { update(); ticking = false; });
       }
     }
 
-    function getSnapTarget() {
-      var ch = carousel.offsetHeight;
-      var scroll = carousel.scrollTop;
-      var cy = ch / 2;
-      var near = 0, nearDist = Infinity;
-      for (var i = 0; i < cards.length; i++) {
-        var cardCenter = cards[i].offsetTop + cards[i].offsetHeight / 2;
-        var dist = Math.abs(cardCenter - scroll - cy);
-        if (dist < nearDist) { nearDist = dist; near = i; }
-      }
-      return cards[near].offsetTop + cards[near].offsetHeight / 2 - cy;
-    }
+    size();
+    update();
+    win.addEventListener('scroll', rafUpdate, { passive: true });
+    win.addEventListener('resize', function() { size(); rafUpdate(); });
 
-    function snap() {
-      isSnapping = true;
-      var target = getSnapTarget();
-      var start = carousel.scrollTop;
-      var diff = target - start;
-      if (Math.abs(diff) < 30) { carousel.scrollTop = target; render(); isSnapping = false; return; }
-      var t0 = performance.now();
-      (function frame(now) {
-        var t = Math.min(1, (now - t0) / 200);
-        carousel.scrollTop = start + diff * (1 - Math.pow(1 - t, 3));
-        render();
-        if (t < 1) snapRaf = requestAnimationFrame(frame);
-        else { snapRaf = null; isSnapping = false; }
-      })(t0);
-    }
-
-    carousel.addEventListener('scroll', function() {
-      if (isSnapping) { render(); return; }
-      cancelSnap();
-      render();
-      snapTimer = setTimeout(snap, 150);
-    }, { passive: true });
-
-    carousel.addEventListener('wheel', function() { if (isSnapping) cancelSnap(); }, { passive: true });
-    carousel.addEventListener('touchstart', function() { if (isSnapping) cancelSnap(); }, { passive: true });
-
-    cards.forEach(function(card) {
+    // Flip card on click with typewriter effect
+    officerCards.forEach(function(card) {
+      var typingInterval = null;
       card.addEventListener('click', function() {
-        clearType();
-        modalAvatar.className = 'modal-avatar ' + card.dataset.avatarClass;
-        modalAvatar.textContent = card.dataset.initials;
-        modalName.textContent = card.querySelector('.officer-name').textContent;
-        modalRole.textContent = card.querySelector('.officer-role').textContent;
-        modalBio.textContent = '';
-        modal.classList.add('active');
-        typeBio(card.dataset.bio, modalBio, 20);
+        var flipped = this.classList.toggle('flipped');
+        if (typingInterval) { clearInterval(typingInterval); typingInterval = null; }
+        if (flipped) {
+          var bio = this.dataset.bio;
+          var p = this.querySelector('.card-back p');
+          p.textContent = '';
+          var i = 0;
+          typingInterval = setInterval(function() {
+            p.textContent += bio.charAt(i);
+            i++;
+            if (i >= bio.length) { clearInterval(typingInterval); typingInterval = null; }
+          }, 18);
+        }
       });
     });
-
-    measure();
-    render();
-    window.addEventListener('resize', function() { measure(); render(); });
   })();
 
   document.getElementById('modalClose').addEventListener('click', () => {
