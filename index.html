@@ -125,7 +125,7 @@
   .oficiales-bg-hex::after { content: ''; position: absolute; width: 40vmin; height: 40vmin; background: var(--orange); clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); opacity: 0.025; animation: hex-rotate 60s linear infinite reverse; }
   @keyframes hex-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   .v-track { display: flex; flex-direction: column; will-change: transform; }
-  .v-slide { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px; }
+  .v-slide { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px; opacity: 0.08; transform: scale(0.82); will-change: transform, opacity; }
   .header-slide { text-align: center; }
   .header-slide .section-eyebrow { font-size: 13px; }
   .header-slide .section-title { font-size: 36px; color: #fff; }
@@ -211,6 +211,9 @@
       .hero { padding-top: 96px; }
       .hero-stats { gap: 20px; }
       .social-cards { flex-direction: column; align-items: center; }
+      .oficiales-bg-hex::before,
+      .oficiales-bg-hex::after { animation: none; display: none; }
+      .navbar { backdrop-filter: blur(6px); }
     }
   </style>
 </head>
@@ -605,9 +608,13 @@
       var trackOffset = progress * (numSlides - 1) * h;
       track.style.transform = 'translateY(' + (-trackOffset) + 'px)';
 
-      // Per-slide effects
+      // Per-slide effects — only update active + neighbors
       var activeIdx = Math.round(progress * (numSlides - 1));
       for (var i = 0; i < slides.length; i++) {
+        if (i < activeIdx - 1 || i > activeIdx + 1) {
+          dots[i].className = 'progress-dot';
+          continue;
+        }
         var slideCenter = (i * h) - trackOffset + h / 2;
         var viewCenter = h / 2;
         var dist = Math.abs(slideCenter - viewCenter) / (h * 0.7);
@@ -615,7 +622,6 @@
         slides[i].style.opacity = Math.max(0.08, closeness);
         slides[i].style.transform = 'scale(' + (0.82 + closeness * 0.18) + ')';
         dots[i].className = 'progress-dot' + (i === activeIdx ? ' active' : '');
-
       }
     }
 
